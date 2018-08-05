@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <h1>Information</h1>
+    <div class="list-group-item list-group-item-action flex-column align-items-start list-group-item-light" name="card">
+        <div class="d-flex w-100 justify-content-between">
+            <h3 class="mb-1" id="repoName">{{this.details.fname}} {{this.details.lname}}</h3>
+            <small id="reposLang">{{this.details.city}}, {{this.details.country}}</small>
+        </div>
+        {{#if this.details.review}}
+            <small id="numIssues">Average Review: {{this.details.review}}</small>
+        {{else}}
+            <small id="numIssues">No Reviews</small>
+        {{/if}}
+    </div>
+    <h1>Activities</h1>
+    {{#each activities}}
+        <a href="/activities/{{this.id}}" class="list-group-item list-group-item-action flex-column align-items-start list-group-item-light" name="card">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1" id="repoName">{{this.title}}</h3>
+            </div>
+        </a>
+    {{/each}}
+    <h1>Reviews</h1>
+    <div class="container-fluid custom-column">
+        <h2>Review Guide</h2>
+        <form class="form-group" role="search">
+            <input type="text" class="form-control" placeholder="Your First Name">
+            <input type="text" class="form-control" placeholder="Your Last Name">
+            <select>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <div class="container-fluid custom-column">
+        <h2>Delete Your Review</h2>
+        <form class="form-group" role="search">
+            <input type="text" class="form-control" placeholder="Your First Name">
+            <input type="text" class="form-control" placeholder="Your Last Name">
+            <button type="submit" class="btn btn-default">Delete</button>
+        </form>
+    </div>
+</div>

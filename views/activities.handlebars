@@ -1,0 +1,44 @@
+<div class="container-fluid">
+    <h1>{{header}}</h1>
+    <div class="container-fluid custom-column">
+        <h2>Search Activities</h2>
+        <form id="search-activities" class="form-group" action="" method="">
+            <input id="price" type="text" name="price" class="form-control" placeholder="Price">
+            <input id="category" type="text" name="category" class="form-control" placeholder="Category">
+            <label for="places_search">Place</label> 
+            <select id="places_search" name="place">
+                <option></option>
+                {{#each places}}
+                <option value="{{id}}">{{city}}, {{country}}</option>
+                {{/each}}
+            </select><br>
+            <button onclick="searchActivities(event)" class="btn btn-default">Search</button>
+        </form>
+    </div>
+    <div class="container-fluid custom-column">
+        <h2>Add Activity</h2>
+        <small>* required fields</small>
+        <form id="addActivity" onsubmit="return checkValues()" class="form-group" action="/activities" method="post">
+            <input id="title" type="text" class="form-control" name="title" placeholder="* Title">
+            <input type="text" class="form-control" name="description" placeholder="Description">
+            <input type="text" class="form-control" name="duration" placeholder="Duration">
+            <input type="text" class="form-control" name="price" placeholder="Price Per Person">
+            <input type="text" class="form-control" name="category" placeholder="Category">
+            *<label for="guides_add">Guides</label> 
+            <select id="guides_add" name="guide">
+                <option></option>
+                {{#each guides}}
+                <option value="{{id}}">{{fname}} {{lname}}</option>
+                {{/each}}
+            </select><br>
+            <button type="submit" class="btn btn-default">Add</button>
+        </form>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="container" id="list"> 
+        {{#each activities}}
+            {{>activity this}}
+        {{/each}}
+    </div>
+</div>

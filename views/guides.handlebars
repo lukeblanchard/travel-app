@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <h1>{{header}}</h1>
+    <div class="container-fluid custom-column">
+        <h2>Search Guides</h2>
+        <form class="form-group" action="" method="">
+            <input type="text" id="fname" name="fname" class="form-control" placeholder="First Name">
+            <input type="text" id="lname" name="lname" class="form-control" placeholder="Last Name">
+            <label for="places_search">Place</label> 
+            <select id="places_search" name="place">
+                <option></option>
+                {{#each places}}
+                <option value="{{id}}">{{city}}, {{country}}</option>
+                {{/each}}
+            </select><br>
+            <button onclick="searchGuides(event)" class="btn btn-default">Search</button>
+        </form>
+    </div>
+    <div class="container-fluid custom-column">
+        <h2>Add New Guide</h2>
+        <form class="form-group" role="search">
+            <input type="text" class="form-control" placeholder="First Name">
+            <input type="text" class="form-control" placeholder="Last Name">
+            <input type="text" class="form-control" placeholder="Email Contact">
+            <label for="places_add">Place</label> 
+            <select id="places_add" name="place">
+                <option></option>
+                {{#each places}}
+                <option value="{{id}}">{{city}}, {{country}}</option>
+                {{/each}}
+            </select><br>
+            <button type="submit" class="btn btn-default">Add</button>
+        </form>
+    </div>
+</div>

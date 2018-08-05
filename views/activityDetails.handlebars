@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <h1>Details</h1>
+    <div class="list-group">
+        <br>
+        <div class="list-group-item list-group-item-action flex-column align-items-center list-group-item-dark" name="card">
+            <div class="d-flex w-100 justify-content-between">
+                <h3 class="mb-1">{{this.details.title}}</h3>
+                <small id="reposLang">Location: {{this.details.city}}, {{this.details.country}}</small>
+            </div>
+            <p class="mb-1" id="repoDesc">Guide: {{this.details.fname}} {{this.details.lname}}</p>
+            <p class="mb-1" id="repoDesc">{{this.details.description}}</p>
+            <p class="mb-1" id="repoDesc">Duration: {{this.details.duration}} hours</p>
+            <small>Price per person: ${{this.details.price_per_person}}</small><br>
+            <small>Category: {{this.details.category}}</small>
+        </div>
+    </div>
+    <button id="collapse-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		Update
+      </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+      <div class="grid-collapse card card-body container">
+        <form id="update-activity" class="form-group" action="/activities" method="put">
+            Title:<input type="text" name="title" class="form-control" value="{{this.details.title}}">
+            Description:<input type="text" name="description" class="form-control" value="{{this.details.description}}">
+            Duration:<input type="text" name="duration" class="form-control" value="{{this.details.duration}}">
+            Price:<input type="text" name="price" class="form-control" value="{{this.details.price_per_person}}">
+            Category:<input type="text" name="category" class="form-control" value="{{this.details.category}}">
+            <button onclick="updateActivity({{this.details.id}})" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+
+
+</div>

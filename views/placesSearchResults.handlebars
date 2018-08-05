@@ -1,0 +1,13 @@
+{{#if places}}
+<div class="container-fluid">
+    <div class="container" id="list"> 
+        {{#each places}}
+            {{>place this}}
+        {{/each}}
+    </div>
+</div>
+{{else}} 
+    <div class="container-fluid">
+        <h1>No Results</h1>
+    </div> 
+{{/if}}
