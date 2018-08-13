@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <h1>Information</h1>
+    <h2>Information</h2>
     <div class="list-group-item">
         <div>
             <h3>{{this.details.fname}} {{this.details.lname}}</h3>
@@ -11,7 +11,7 @@
             <small>No Reviews</small>
         {{/if}}
     </div>
-    <h1>Activities</h1>
+    <h2>Activities</h2>
     {{#if activities}}
         {{#each activities}}
             <a href="/activities/{{this.id}}" class="list-group-item">
@@ -22,6 +22,21 @@
         {{/each}}
     {{else}}
         <h4>No activities listed</h4>
+    {{/if}}
+    {{#if reviewNumbers}} 
+        <h2>Reviews</h2> 
+            <table> 
+                <tr>
+                    <th>username</th>
+                    <th>review</th> 
+                </tr>
+                {{#each reviewNumbers}}
+                    <tr>
+                        <th>{{this.username}}</th>
+                        <th>{{this.rating}}</th>
+                    </tr>
+                {{/each}}
+            </table>
     {{/if}}
     <div class="container-fluid custom-column">
         <h2>Review Guide</h2>

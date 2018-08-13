@@ -2,10 +2,15 @@
     {{#if recordDoesNotExist}}
         <h3>Username Does Not Exist</h3>
     {{else}}
-        {{#if deletedReview}}
-            <h3>Review Deleted Successfully</h3>
+        {{#if reviewDoesNotExist}}
+            <h3>No review listed for this username and guide</h3> 
         {{else}}
-            <h3>Review Submitted Successfully</h3>
+            {{#if deletedReview}}
+                <h3>Review Deleted Successfully</h3>
+            {{else}}
+                <h3>Review Submitted Successfully</h3>
+            {{/if}}
         {{/if}}
     {{/if}}
+    <a href="/guides/{{gid}}"><button>Back to Guide Details</button></a>
 </div>

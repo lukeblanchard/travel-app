@@ -10,6 +10,14 @@
     text-align: center;
 }
 
+table, th, td {
+    border: 1px solid black; 
+}
+
+th, td {
+    padding: 2px;
+}
+
 @media(min-width:769px){
     .custom-column {
         float: left; 

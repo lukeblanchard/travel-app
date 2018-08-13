@@ -48,9 +48,28 @@ module.exports = function(){
         }); 
     }
 
-    function deleteReview(res, mysql, context, userID, complete){
-        var sql = "DELETE FROM ta_reviews WHERE tid = ?";
-        var inserts = [userID]; 
+    function checkReview(res, mysql, context, tid, gid, complete){
+        var sql = "SELECT rating FROM ta_reviews WHERE tid = ? AND gid = ?";
+        var inserts = [tid, gid]; 
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error)); 
+                res.end(); 
+            }
+            if(results.length == 0){
+                context.reviewDoesNotExist = true; 
+            }
+            else {
+                context.reviewDoesNotExist = false; 
+            }
+            console.log(results); 
+            complete(); 
+        }); 
+    }
+
+    function deleteReview(res, mysql, context, tid, gid, complete){
+        var sql = "DELETE FROM ta_reviews WHERE tid = ? AND gid = ?";
+        var inserts = [tid, gid]; 
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error)); 
@@ -115,6 +134,19 @@ module.exports = function(){
         }); 
     }
     
+    function getGuideReviewNumbers(res, mysql, context, gid, complete){
+        var sql = "SELECT R.rating, T.username FROM ta_reviews R INNER JOIN ta_travelers T ON R.tid = T.id WHERE R.gid = ?"; 
+        var inserts = [gid]; 
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error)); 
+                res.end(); 
+            }
+            context.reviewNumbers = results; 
+            complete(); 
+        }); 
+    }
+
     function getGuideReviews(res, mysql, context, gid, complete){
         var sql = "SELECT AVG(rating) AS average_rating FROM ta_reviews WHERE gid = ? GROUP BY gid"; 
         var inserts = [gid]; 
@@ -177,6 +209,7 @@ module.exports = function(){
         var context = {}; 
         var mysql = req.app.get('mysql'); 
         checkRecords(mysql, req.body.username, context, complete); 
+        context.gid = req.body.gid; 
         function complete(){
             callbackCount++; 
             if(callbackCount == 1){
@@ -188,7 +221,7 @@ module.exports = function(){
                 }
             }
             if(callbackCount == 2){
-                deleteReview(res, mysql, context, context.userID, complete); 
+                deleteReview(res, mysql, context, context.userID, req.body.gid, complete); 
             }
             if(callbackCount == 3){
                 console.log("callback == 2"); 
@@ -216,6 +249,7 @@ module.exports = function(){
         var context = {}; 
         var mysql = req.app.get('mysql'); 
         checkRecords(mysql, req.body.username, context, complete); 
+        context.gid = req.body.gid; 
         function complete(){
             callbackCount++; 
             if(callbackCount == 1){
@@ -228,10 +262,17 @@ module.exports = function(){
                 }
             }
             if(callbackCount == 2){
-                console.log("Delete Route ", callbackCount); 
-                deleteReview(res, mysql, context, context.userID, complete); 
+                checkReview(res, mysql, context, context.userID, req.body.gid, complete); 
             }
             if(callbackCount == 3){
+                if(context.reviewDoesNotExist) {
+                   res.render('reviewResults', context)
+                }
+                else {
+                    deleteReview(res, mysql, context, context.userID, req.body.gid, complete); 
+                }
+            }
+            if(callbackCount == 4){
                 console.log("Delete Route ", callbackCount); 
                 context.deletedReview = true; 
                 res.render('reviewResults', context)
@@ -243,13 +284,21 @@ module.exports = function(){
         var callbackCount = 0; 
         var context = {}; 
         context.jsscripts = ["reviewGuide.js"]; 
-        var mysql = req.app.get('mysql'); 
-        getGuide(res, mysql, context, req.params.id, complete); 
-        getGuideActivities(res, mysql, context, req.params.id, complete); 
-        context.header = "Details"; 
+        var mysql = req.app.get('mysql');   
+        updateGuideReview(res, context, mysql, req.params.id, complete); 
         function complete(){
             callbackCount++; 
-            if(callbackCount >= 2){
+            if(callbackCount == 1){
+                getGuide(res, mysql, context, req.params.id, complete); 
+            }
+            if(callbackCount == 2){
+                getGuideActivities(res, mysql, context, req.params.id, complete); 
+            }
+            if(callbackCount == 3){
+                getGuideReviewNumbers(res, mysql, context, req.params.id, complete); 
+            }
+            if(callbackCount >= 4){
+                console.log(context); 
                 res.render('guideDetails', context); 
             }
         }
