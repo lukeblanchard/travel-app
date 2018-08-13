@@ -1,7 +1,24 @@
+.title-header {
+    text-align: center;
+}
+
+.landing-card {
+    margin: 5px;
+}
+
+.landing-card-title {
+    text-align: center;
+}
+
 @media(min-width:769px){
     .custom-column {
         float: left; 
         width: 50%; 
         padding: 10px; 
+    }
+
+    .home-container {
+        display: grid; 
+        grid-template-columns: auto auto; 
     }
 }

@@ -6,3 +6,8 @@ function searchActivities(e){
     console.log(category);
     window.location = '/activities/search/database/?' + place + price + category; 
 };
+
+function browseActivities(e){
+    e.preventDefault(); 
+    window.location = '/activities/search/database/'; 
+};

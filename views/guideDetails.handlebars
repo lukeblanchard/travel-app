@@ -1,31 +1,35 @@
 <div class="container-fluid">
     <h1>Information</h1>
-    <div class="list-group-item list-group-item-action flex-column align-items-start list-group-item-light" name="card">
-        <div class="d-flex w-100 justify-content-between">
-            <h3 class="mb-1" id="repoName">{{this.details.fname}} {{this.details.lname}}</h3>
-            <small id="reposLang">{{this.details.city}}, {{this.details.country}}</small>
+    <div class="list-group-item">
+        <div>
+            <h3>{{this.details.fname}} {{this.details.lname}}</h3>
+            <small>{{this.details.city}}, {{this.details.country}}</small>
         </div>
         {{#if this.details.review}}
-            <small id="numIssues">Average Review: {{this.details.review}}</small>
+            <small>Average Review: {{this.details.review}}</small>
         {{else}}
-            <small id="numIssues">No Reviews</small>
+            <small>No Reviews</small>
         {{/if}}
     </div>
     <h1>Activities</h1>
-    {{#each activities}}
-        <a href="/activities/{{this.id}}" class="list-group-item list-group-item-action flex-column align-items-start list-group-item-light" name="card">
-            <div class="d-flex w-100 justify-content-between">
-                <h3 class="mb-1" id="repoName">{{this.title}}</h3>
-            </div>
-        </a>
-    {{/each}}
-    <h1>Reviews</h1>
+    {{#if activities}}
+        {{#each activities}}
+            <a href="/activities/{{this.id}}" class="list-group-item">
+                <div>
+                    <h3>{{this.title}}</h3>
+                </div>
+            </a>
+        {{/each}}
+    {{else}}
+        <h4>No activities listed</h4>
+    {{/if}}
     <div class="container-fluid custom-column">
         <h2>Review Guide</h2>
-        <form class="form-group" role="search">
-            <input type="text" class="form-control" placeholder="Your First Name">
-            <input type="text" class="form-control" placeholder="Your Last Name">
-            <select>
+        <p>Your review only counts once. If you submit multiple reviews, only the final review counts toward the average.</p> 
+        <form id="review-guide" class="form-group" action="/guides/reviews" method="post">
+            <input type="text" name="username" class="form-control" placeholder="Your Username">
+            <input type="hidden" name="gid" value="{{this.details.id}}">
+            <select name="rating">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -37,9 +41,9 @@
     </div>
     <div class="container-fluid custom-column">
         <h2>Delete Your Review</h2>
-        <form class="form-group" role="search">
-            <input type="text" class="form-control" placeholder="Your First Name">
-            <input type="text" class="form-control" placeholder="Your Last Name">
+        <form class="form-group" action="/guides/reviews/delete" method="post">
+            <input type="text" name="username" class="form-control" placeholder="Your Username">
+            <input type="hidden" name="gid" value="{{this.details.id}}">
             <button type="submit" class="btn btn-default">Delete</button>
         </form>
     </div>

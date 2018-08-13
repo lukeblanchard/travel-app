@@ -112,6 +112,24 @@ module.exports = function(){
         }
     }); 
 
+    router.get('/delete/:id', function(req, res){ 
+        var mysql = req.app.get('mysql'); 
+        var sql = "DELETE FROM ta_activities WHERE id = ?"; 
+        var context = {}; 
+        context.jsscripts = ["searchActivities.js", "checkValues.js"]; 
+        var inserts = [req.params.id]; 
+        sql = mysql.pool.query(sql,inserts,function(error,results,fields){ 
+            if(error){
+                res.write(JSON.stringify(error)); 
+                res.end(); 
+            } else {
+                context.deletion = true; 
+                res.status(200); 
+                res.render('activities', context); 
+            }
+        }); 
+    }); 
+
     router.get('/search/database', function(req, res){
         console.log("test search route"); 
         console.log(req.query); 
@@ -130,6 +148,8 @@ module.exports = function(){
 
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql'); 
+        var context = {}; 
+        context.jsscripts = ["searchActivities.js", "checkValues.js"]; 
         var sql = "UPDATE ta_activities SET title=?, description=?, duration=?, price_per_person=?, category=? WHERE id=?"; 
         var inserts = [req.body.title, req.body.description, req.body.duration, req.body.price, req.body.category, req.params.id]; 
         console.log(inserts); 
@@ -138,7 +158,7 @@ module.exports = function(){
                 console.log(error); 
                 res.write(JSON.stringify(error)); 
                 res.end(); 
-            }else{
+            } else {
                 res.status(200); 
                 res.end(); 
             }
@@ -149,6 +169,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql'); 
         var context = {}; 
         var callbackCount = 0; 
+        context.jsscripts = ["searchActivities.js", "checkValues.js"]; 
         getGuideLocation(mysql, req.body.guide, context, complete); 
         function complete(){
             callbackCount++; 
@@ -161,10 +182,28 @@ module.exports = function(){
                         res.write(JSON.stringify(error)); 
                         res.end(); 
                     } else {
+                        context.added = true; 
                         res.status(200); 
-                        res.redirect('/activities'); 
+                        res.render('activities', context); 
                     }
                 }); 
+            }
+        }
+    }); 
+
+    router.get('/updated/success', function(req, res){
+        var callbackCount = 0; 
+        var context = {}; 
+        var mysql = req.app.get('mysql'); 
+        context.header = "Activities"; 
+        context.jsscripts = ["searchActivities.js", "checkValues.js"]; 
+        getGuides(res, mysql, context, complete); 
+        getPlaces(res, mysql, context, complete); 
+        function complete(){
+            callbackCount++; 
+            if(callbackCount >= 2){
+                context.updated = true;
+                res.render('activities', context); 
             }
         }
     }); 
@@ -172,15 +211,14 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0; 
         var context = {}; 
+        var mysql = req.app.get('mysql'); 
         context.header = "Activities"; 
         context.jsscripts = ["searchActivities.js", "checkValues.js"]; 
-        var mysql = req.app.get('mysql'); 
-        getActivities(res, mysql, context, complete); 
-        getPlaces(res, mysql, context, complete); 
         getGuides(res, mysql, context, complete); 
+        getPlaces(res, mysql, context, complete); 
         function complete(){
             callbackCount++; 
-            if(callbackCount >= 3){
+            if(callbackCount >= 2){
                 res.render('activities', context); 
             }
         }

@@ -4,3 +4,8 @@ function searchPlaces(e){
     var country = 'country=' + document.getElementById('country').value + '&'; 
     window.location = '/places/search/database/?' + city + country; 
 };
+
+function browsePlaces(e){
+    e.preventDefault(); 
+    window.location = '/places/search/database/'; 
+};

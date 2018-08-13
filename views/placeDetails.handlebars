@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <h1>{{this.details.city}}, {{this.details.country}}</h1>
+    <h3>Activities</h1>
+    {{#if activities}}
+        {{#each activities}}
+            <a href="/activities/{{this.id}}" class="list-group-item">
+                <div>
+                    <h3 class="mb-1" id="repoName">{{this.title}}</h3>
+                </div>
+            </a>
+        {{/each}}
+    {{else}}
+       <h4>No activities listed</h4>  
+    {{/if}}
+    <h3>Guides</h1>
+    {{#if guides}}
+        {{#each guides}}
+            <a href="/guides/{{this.id}}" class="list-group-item">
+                <div> 
+                    <h3>{{this.fname}} {{this.lname}}</h3>
+                </div>
+            </a>
+        {{/each}}
+    {{else}}
+       <h4>No guides listed</h4>  
+    {{/if}}
+</div>

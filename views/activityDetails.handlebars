@@ -2,8 +2,8 @@
     <h1>Details</h1>
     <div class="list-group">
         <br>
-        <div class="list-group-item list-group-item-action flex-column align-items-center list-group-item-dark" name="card">
-            <div class="d-flex w-100 justify-content-between">
+        <div class="list-group-item">
+            <div>
                 <h3 class="mb-1">{{this.details.title}}</h3>
                 <small id="reposLang">Location: {{this.details.city}}, {{this.details.country}}</small>
             </div>
@@ -14,10 +14,8 @@
             <small>Category: {{this.details.category}}</small>
         </div>
     </div>
-    <button id="collapse-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-		Update
-      </button>
-    </p>
+    <button id="collapse-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Update</button>
+    <a href="/activities/delete/{{this.details.id}}"<button class="btn">Delete</button></a>
     <div class="collapse" id="collapseExample">
       <div class="grid-collapse card card-body container">
         <form id="update-activity" class="form-group" action="/activities" method="put">
@@ -30,6 +28,4 @@
         </form>
       </div>
     </div>
-
-
 </div>

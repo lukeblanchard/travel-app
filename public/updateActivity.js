@@ -5,7 +5,7 @@ function updateActivity(id){
         type: 'PUT', 
         data: $('#update-activity').serialize(), 
         success: function(result){
-            window.location.replace("./"); 
+            window.location.replace("./updated/success"); 
         }
     })
 };

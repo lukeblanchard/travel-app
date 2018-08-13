@@ -1,0 +1,14 @@
+{{#if travelers}}
+<div class="container-fluid">
+    <div class="container" id="list"> 
+        {{#each travelers}}
+            <h3>{{this.fname}} {{this.lname}}</h3>
+            <h4>Username: {{this.username}}</h4>
+        {{/each}}
+    </div>
+</div>
+{{else}} 
+    <div class="container-fluid">
+        <h1>No Results</h1>
+    </div> 
+{{/if}}

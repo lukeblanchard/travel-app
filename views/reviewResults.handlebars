@@ -1,0 +1,11 @@
+<div class="container-fluid"> 
+    {{#if recordDoesNotExist}}
+        <h3>Username Does Not Exist</h3>
+    {{else}}
+        {{#if deletedReview}}
+            <h3>Review Deleted Successfully</h3>
+        {{else}}
+            <h3>Review Submitted Successfully</h3>
+        {{/if}}
+    {{/if}}
+</div>

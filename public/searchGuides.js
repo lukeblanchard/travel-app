@@ -5,3 +5,8 @@ function searchGuides(e){
     var place = 'place=' + document.getElementById('places_search').value; 
     window.location = '/guides/search/database/?' + fname + lname + place; 
 };
+
+function browseGuides(e){
+    e.preventDefault(); 
+    window.location = '/guides/search/database/'; 
+};
